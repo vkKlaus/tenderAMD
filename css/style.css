@@ -1,0 +1,59 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.logo-img{
+    width: 15em;
+    height: 1.5em;
+}
+
+.title-select{
+    font-family: Arial, Helvetica, sans-serif ;
+    font-weight: bold;
+    font-size: 1em;
+    text-align: center;
+    font-style: italic;
+}
+
+.active{
+    color: #C00000;
+}
+
+.main-container {
+    min-height: 95vh;
+}
+
+.title-select, .btn-select{
+    font-size: 0.7em;
+    font-weight: lighter;
+}
+
+.list-select{
+    width:10vw;
+}
+
+.btn-select{
+    height: 2em;
+    padding: 0 5px;
+}
+
+
+
+.tender-tab{
+    min-height: 75vh;
+}
+
+.list-rules li::before{
+   content: "- ";
+}
+.list-rules li{
+   margin-top: 5px;
+}
+
+.cell-table{
+word-wrap:  break-word;
+font-size: 0.9em;
+}
+
+.header-tab{
+    color:red;
+}
