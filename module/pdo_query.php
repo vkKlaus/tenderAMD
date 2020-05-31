@@ -1,23 +1,14 @@
 <?php
 
-/**
- * функция получения полных таблиц
- * @param object $pdo - объект соединения с БД
- * @param sting $table - таблица
- * @param string $where - условие
- * @param string $sort - сортировка
- * @param string $limit - выборка
- * @return array - результат записи сообщения
- */
 
-function getTable(object $pdo, string $table, string $where = "1", $sort = "", $limit = ""): array
+function getTable($pdo, $table, $where = NULL,  $sort = NULL, $limit = NULL)
 {
 
 
     $sql = "SELECT * FROM `$table` 
-    WHERE " . ($where == "" ? 1 : "$where")
-        . ($sort == "" ? "" : " ORDER BY $sort")
-        . ($limit == "" ? "" : " LIMIT $limit");
+    WHERE " . ($where == NULL ? 1 : "$where")
+        . ($sort == NULL ? "" : " ORDER BY $sort")
+        . ($limit == NULL ? "" : " LIMIT $limit");
 
     $stmt = $pdo->prepare($sql);
 
@@ -26,15 +17,12 @@ function getTable(object $pdo, string $table, string $where = "1", $sort = "", $
     return $stmt->fetchAll();
 }
 
-/** 
- * функция получения количества элементов в таблице
- * @param object $pdo - объект соединения с БД
- * @param sting $table - таблица
- * @param string $where - условие
- * @return int - количество элеиментов в таблице
- */
-function getCountElements(object $pdo, string $table, string $where = "1"): int
+
+function getCountElements( $pdo,  $table,  $where = NULL)
 {
+    
+    $where = $where == NULL ? 1 : $where;
+    
     $sql = "SELECT COUNT(*) as count FROM `$table` WHERE $where";
 
 
@@ -49,15 +37,9 @@ function getCountElements(object $pdo, string $table, string $where = "1"): int
     return $arrCount[0]['count'];
 }
 
-/**
- * получение пользователя
- * @param object $pdo - объект соединения с БД
- * @param string $login - логин пользователя 
- * @param string $password -пароль
- *
- */
 
-function getUser(object $pdo, string $login): array
+
+function getUser( $pdo,  $login)
 {
     $login = (int) htmlspecialchars($login, ENT_QUOTES);
     $sql = "SELECT * FROM `users` WHERE `inn`=$login LIMIT 1";
@@ -71,13 +53,7 @@ function getUser(object $pdo, string $login): array
     return $users[0];
 }
 
-/**
- * ввод пользователя
- * @param object $pdo - объект соединения с БД
- * @param array $data - массив с данными 
- * @return array $password -пользователь
- *
- */
+
 function addUser($pdo, $data)
 {
     $data['login'] = htmlspecialchars($data['login'], ENT_QUOTES);

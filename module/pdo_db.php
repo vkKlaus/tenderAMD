@@ -10,8 +10,8 @@ function connect()
 
         $host = 'localhost';
         $db   = 'j96873ov_tender';
-        $user = 'root';
-        $pass = '';
+        $user = 'j96873ov_tender';
+        $pass = '123Qaz';
         $charset = 'utf8';
 
         $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

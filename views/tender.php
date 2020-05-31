@@ -4,6 +4,7 @@ if (isset($_SESSION['user']['action']) && ($_SESSION['user']['action'] == 1)) {
     $viewDoc = true;
 }
 
+
 $project = getTable($pdo, 'project');
 
 $type = getTable($pdo, 'type');

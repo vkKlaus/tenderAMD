@@ -5,7 +5,7 @@
  * @param array - $data массив с данными
  * @return bool - результат отправки сообщения
  */
-function sentMail(array $data): bool
+function sentMail(array $data)
 {
     $name = $data["visitor"];
     $email = $data["email"];
@@ -37,9 +37,11 @@ function sentMail(array $data): bool
  * @param int $jurface тип инн: (1)-для юр лица код 10 знаков / 0- для физ.лиц и ИП - 12 знаков
  * @return bool или правильный инн или 0
  */
-function valid_inn(string $login, int $jurface = 1): bool
+function valid_inn(string $login, int $jurface = NULL)
 {
     $inn = (int) $login;
+
+$jurface = $jurface==NULL?1:$jurface;
 
     if ($jurface == 1) {
         //для юр лица код 10 знаков
@@ -73,7 +75,7 @@ function valid_inn(string $login, int $jurface = 1): bool
  * @return bool правильный номер или нет
  */
 
-function valid_phone(string $phone): bool
+function valid_phone(string $phone)
 {
     $regexp = '/^\s?(\+\s?7|8)([- ()]*\d){10}$/';
 
@@ -89,7 +91,7 @@ function valid_phone(string $phone): bool
  * @return bool правильный номер или нет
  */
 
-function valid_password(string $password): bool
+function valid_password(string $password)
 {
     $regexp = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,10}$/';
 
