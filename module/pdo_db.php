@@ -8,10 +8,15 @@ function connect()
 
     if ($pdo === null) {
 
+        // $host = 'localhost';
+        // $db   = 'j96873ov_tender';
+        // $user = 'j96873ov_tender';
+        // $pass = '123Qaz';
+        // $charset = 'utf8';
         $host = 'localhost';
-        $db   = 'j96873ov_tender';
-        $user = 'j96873ov_tender';
-        $pass = '123Qaz';
+        $db   = 'tender_amd';
+        $user = 'root';
+        $pass = '111';
         $charset = 'utf8';
 
         $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

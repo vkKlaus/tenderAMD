@@ -4,6 +4,7 @@
 
 <?php
  require $_SERVER['DOCUMENT_ROOT'] . '/views/tender.php';
+ //createDB($pdo);
 ?>
 
 

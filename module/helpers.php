@@ -1,11 +1,6 @@
 <?php
 
-/**
- * функция отправки сообщения на почту
- * @param array - $data массив с данными
- * @return bool - результат отправки сообщения
- */
-function sentMail(array $data)
+function sentMail($data)
 {
     $name = $data["visitor"];
     $email = $data["email"];
@@ -31,13 +26,7 @@ function sentMail(array $data)
     return true;
 }
 
-/**
- * проверка инн
- * @param string $inn 
- * @param int $jurface тип инн: (1)-для юр лица код 10 знаков / 0- для физ.лиц и ИП - 12 знаков
- * @return bool или правильный инн или 0
- */
-function valid_inn(string $login, int $jurface = NULL)
+function valid_inn($login,$jurface = NULL)
 {
     $inn = (int) $login;
 
@@ -69,13 +58,8 @@ $jurface = $jurface==NULL?1:$jurface;
     }
     return false;
 }
-/**
- * проверка номера телефона
- * @param string $phone
- * @return bool правильный номер или нет
- */
 
-function valid_phone(string $phone)
+function valid_phone($phone)
 {
     $regexp = '/^\s?(\+\s?7|8)([- ()]*\d){10}$/';
 
@@ -85,13 +69,8 @@ function valid_phone(string $phone)
 
     return false;
 }
-/**
- * проверка номера 
- * @param string $phone
- * @return bool правильный номер или нет
- */
 
-function valid_password(string $password)
+function valid_password($password)
 {
     $regexp = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,10}$/';
 
