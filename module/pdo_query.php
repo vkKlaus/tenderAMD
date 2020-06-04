@@ -6,7 +6,7 @@ function getTable($pdo, $table, $where = NULL,  $sort = NULL, $limit = NULL)
     WHERE ".($table == 'tenders' ? '`delete`=0 AND ' : '') . ($where == NULL ? '1' : "$where") 
         . ($sort == NULL ? "" : " ORDER BY $sort")
         . ($limit == NULL ? "" : " LIMIT $limit");
-
+        var_dump($sql);
     $stmt = $pdo->prepare($sql);
 
     $stmt->execute();

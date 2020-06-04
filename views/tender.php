@@ -5,6 +5,7 @@ if (isset($_SESSION['user']['action']) && ($_SESSION['user']['action'] == 1)) {
     $viewDoc = true;
 }
 
+
 $project = getTable($pdo, 'project');
 
 $type = getTable($pdo, 'type');
@@ -23,27 +24,29 @@ if (isset($_GET['page'])) {
     $_SESSION['page'] = 0;
 }
 
-$limit = ' ' . ($_SESSION['page'] * 15) . ', 15';
+$limit = ' ' . ($_SESSION['page'] * 20) . ', 20';
 
-if (!isset($_SESSION['project'])){
-    $_SESSION['project']=0; 
+if (!isset($_SESSION['project'])) {
+    $_SESSION['project'] = 0;
 }
-if (!isset($_SESSION['type'])){
-    $_SESSION['type']=0; 
+
+if (!isset($_SESSION['type'])) {
+    $_SESSION['type'] = 0;
 }
-if (!isset($_SESSION['onlyOpen'])){
-    $_SESSION['onlyOpen']=0; 
+
+if (!isset($_SESSION['onlyOpen'])) {
+    $_SESSION['onlyOpen'] = 0;
 }
+
 
 if (isset($_POST['select'])) {
-    $prj = $_SESSION['project']=$_POST['project'];
-    $tp = $_SESSION['type']=$_POST['type'];
-    $open =  $_SESSION['onlyOpen']=isset($_POST['onlyOpen']) ? 1 : 0;
-}
-else{
+    $prj = $_SESSION['project'] = $_POST['project'];
+    $tp = $_SESSION['type'] = $_POST['type'];
+    $open =  $_SESSION['onlyOpen'] = isset($_POST['onlyOpen']) ? 1 : 0;
+} else {
     $prj = $_SESSION['project'];
     $tp = $_SESSION['type'];
-    $open =  $_SESSION['onlyOpen']; 
+    $open =  $_SESSION['onlyOpen'];
 };
 
 $where = '';
@@ -60,7 +63,28 @@ if ($open) {
     $where .= ($where != '' ? ' AND ' : '') . '`close`=0';
 }
 
-$tenders = getTable($pdo, 'tenders', $where, '', $limit);
+
+
+if (isset($_GET['sort'])) {
+    if (!isset($_SESSION['sort'])) {
+        $_SESSION['sort']['fild'] = 'id';
+        $_SESSION['sort']['direct'] = 'DESC';
+    }
+
+    if ($_SESSION['sort']['fild'] == $_GET['sort']) {
+        $_SESSION['sort']['direct'] = $_SESSION['sort']['direct'] == 'ASC' ? 'DESC' : 'ASC';
+    } else {
+        $_SESSION['sort']['fild'] = $_GET['sort'];
+        $_SESSION['sort']['direct'] = 'ASC';
+    }
+
+};
+
+
+
+$sort = '`'.$_SESSION['sort']['fild'] . '` ' . $_SESSION['sort']['direct'];
+
+$tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
 
 ?>
 <form action="/" method="POST" class=" pl-2 d-flex justify-content-between align-items-center lex-wrap row bg-secondary">
@@ -100,11 +124,11 @@ $tenders = getTable($pdo, 'tenders', $where, '', $limit);
     <div class="col-12  tender-tab border border-white ">
         <div class="row text-white-50 bg-dark text-center border border-white pt-1 pb-1">
             <div class="col-1 border border-white cell-table">
-                <a href="/?sort=num" class="text-white-50"># &#10606;</a>
+                <a href="/?sort=id" class="text-white-50"># &#10606;</a>
             </div>
 
             <div class="col-1 border border-white cell-table">
-                <a href="/?sort=close" class="text-white-50">закрыт &#10606;</a>
+                <a href="/?sort=close" class="text-white-50">в работе &#10606;</a>
             </div>
 
             <div class="col-1 border border-white cell-table">
@@ -120,11 +144,11 @@ $tenders = getTable($pdo, 'tenders', $where, '', $limit);
             </div>
 
             <div class=" col-1 border border-white cell-table">
-                <a href="/?sort=dateOpen" class="text-white-50">открытие &#10606;</a>
+                <a href="/?sort=date_open" class="text-white-50">открытие &#10606;</a>
             </div>
 
             <div class="col-1 border border-white cell-table">
-                <a href="/?sort=dateClose" class="text-white-50">закрытие &#10606;</a>
+                <a href="/?sort=date_close" class="text-white-50">закрытие &#10606;</a>
             </div>
 
             <?php if ($viewDoc) { ?>
@@ -153,7 +177,7 @@ $tenders = getTable($pdo, 'tenders', $where, '', $limit);
         ?>
             <div class=" row text-white-50 text-left <?= ($bg ? 'bg-light' : 'bg-wite') ?> mb-2 mt-2 p-1">
                 <div class="col-1 text-dark cell-table"><?= $tender['id'] ?></div>
-                <div class="col-1 text-dark cell-table"><?= $tender['close'] == 1 ? 'да' : 'нет' ?></div>
+                <div class="col-1 text-dark cell-table"><?= $tender['close'] == 1 ? 'нет' : 'да' ?></div>
                 <div class="col-1 text-dark cell-table"><?= $tp ?></div>
                 <div class="col-1 text-dark cell-table"><?= $prj ?></div>
                 <div class="col text-dark cell-table"><?= $tender['description'] ?></div>
