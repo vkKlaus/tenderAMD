@@ -1,7 +1,27 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/header.php';
+
+if (isset($_POST['enter'])) {
+
+    $user = getUser($pdo, $_POST['login']);
+
+    if ($user) {
+        if (!password_verify($_POST['password'], $user['password'])) {
+            $error .= 'ошибка авторизации <br>';
+        } elseif (!$user['action']) {
+            $error .= 'пользователь не работает с документами <br>';
+        } else {
+            $_SESSION['user'] = $user;
+            header('Location: ' . $host);
+        }
+     
+    } else {
+        $error .= 'пользователь нет найден <br>';
+    }
+}
 ?>
-<p class="mt-3">поля, помеченные *, обязятельны для заполнения</p>
+<p class="mt-3">поля, помеченные *, обязательны для заполнения</p>
+
 <div class="d-flex justify-content-center mt-5">
     <form method="POST" class="enter-form  col-12 col-md-4">
         <div class="form-group">

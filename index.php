@@ -1,10 +1,14 @@
 <?php
+$main=true;
+$rules=false;
+$contact=false;
  require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/header.php';
 ?>
 
 <?php
- require $_SERVER['DOCUMENT_ROOT'] . '/views/tender.php';
  //createDB($pdo);
+ require $_SERVER['DOCUMENT_ROOT'] . '/views/tender.php';
+
 ?>
 
 

@@ -1,7 +1,7 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/header.php';
 ?>
-<p class="mt-3">поля, помеченные *, обязятельны для заполнения / после изменеия пароля будет выполнен повторый запрос на разрешение работы</p>
+<p class="mt-3">поля, помеченные *, обязательны для заполнения / после изменеия пароля будет выполнен повторый запрос на разрешение работы</p>
 
 <div class="d-flex justify-content-center mt-5">
     <form method="POST" class="enter-form   col-12 col-md-4">

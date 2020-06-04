@@ -5,11 +5,9 @@ if (isset($_SESSION['user']['action']) && ($_SESSION['user']['action'] == 1)) {
     $viewDoc = true;
 }
 
-
 $project = getTable($pdo, 'project');
 
 $type = getTable($pdo, 'type');
-
 
 if (isset($_GET['page'])) {
     if ($_GET['page'] == 'left') {
@@ -38,7 +36,6 @@ if (!isset($_SESSION['onlyOpen'])) {
     $_SESSION['onlyOpen'] = 0;
 }
 
-
 if (isset($_POST['select'])) {
     $prj = $_SESSION['project'] = $_POST['project'];
     $tp = $_SESSION['type'] = $_POST['type'];
@@ -63,8 +60,6 @@ if ($open) {
     $where .= ($where != '' ? ' AND ' : '') . '`close`=0';
 }
 
-
-
 if (isset($_GET['sort'])) {
     if (!isset($_SESSION['sort'])) {
         $_SESSION['sort']['fild'] = 'id';
@@ -77,12 +72,14 @@ if (isset($_GET['sort'])) {
         $_SESSION['sort']['fild'] = $_GET['sort'];
         $_SESSION['sort']['direct'] = 'ASC';
     }
-
+    $sort = '`' . $_SESSION['sort']['fild'] . '` ' . $_SESSION['sort']['direct'];
+} else {
+    $sort = '';
 };
 
 
 
-$sort = '`'.$_SESSION['sort']['fild'] . '` ' . $_SESSION['sort']['direct'];
+
 
 $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
 
@@ -112,6 +109,7 @@ $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
 
         <label class="ml-4" for="only-open">
             <input class="form-check-input" type="checkbox" name="onlyOpen" id="only-open" <?= $open ? 'checked' : '' ?>>
+          
             <span class="title-select ">только действующие</span>
         </label>
 
@@ -164,25 +162,36 @@ $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
 
             foreach ($project as $value) {
                 if ($value['id'] == $tender['project']) {
+
                     $prj = $value['name'];
+
                     break;
                 }
             }
             foreach ($type as $value) {
                 if ($value['id'] == $tender['type']) {
+
                     $tp = $value['name'];
+
                     break;
                 }
             }
         ?>
-            <div class=" row text-white-50 text-left <?= ($bg ? 'bg-light' : 'bg-wite') ?> mb-2 mt-2 p-1">
+            <div class=" row text-white-50 text-left <?= ($tender['close'] ? 'bg-secondary' : ($bg ? 'bg-light' : 'bg-wite')) ?> mb-2 mt-2 p-1">
                 <div class="col-1 text-dark cell-table"><?= $tender['id'] ?></div>
+
                 <div class="col-1 text-dark cell-table"><?= $tender['close'] == 1 ? 'нет' : 'да' ?></div>
+
                 <div class="col-1 text-dark cell-table"><?= $tp ?></div>
+
                 <div class="col-1 text-dark cell-table"><?= $prj ?></div>
+
                 <div class="col text-dark cell-table"><?= $tender['description'] ?></div>
+
                 <div class="col-1 text-dark cell-table"><?= $tender['date_open'] ?></div>
+
                 <div class="col-1 text-dark cell-table"><?= $tender['date_close'] ?></div>
+
                 <?php if ($viewDoc) { ?>
                     <div class="col-1 text-dark cell-table">
                         <a href="#">документаци.zip</a>
