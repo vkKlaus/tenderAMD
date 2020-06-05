@@ -1,7 +1,5 @@
 <?php
 
-
-
 function connect()
 {
     static $pdo = null;

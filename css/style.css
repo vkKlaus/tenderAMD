@@ -2,40 +2,50 @@ body{
     font-family: Arial, Helvetica, sans-serif;
 }
 .logo-img{
-    width: 15em;
+    width: 16em;
     height: 1.5em;
 }
 
 .title-select{
     font-family: Arial, Helvetica, sans-serif ;
-    font-weight: bold;
-    font-size: 1em;
+    font-weight: normal;
+    font-size: 1.2em;
     text-align: center;
     font-style: italic;
+    margin-right: 1em;
 }
 
+#only-open{
+    transform: scale(2.2,2.2);
+    margin-top: 0.5em;
+
+}
+
+.check-box__title{
+    margin-left: 1em;
+    font-size: 1.2em;
+    text-align: center;
+}
 .active{
-    color: #C00000;
+    color: rgb(209, 127, 127);
 }
 
 .main-container {
     min-height: 95vh;
 }
 
-.title-select, .btn-select{
-    font-size: 0.7em;
-    font-weight: lighter;
+.btn-select{
+    font-size: 1em;
+    font-weight: normal;
+   
+    padding: 0.1em 2vw;
+    margin-top: -0.5em;
 }
 
 .list-select{
-    width:10vw;
+    width:12vw;
+    border-radius: 0.5em 0.5em;
 }
-
-.btn-select{
-    height: 2em;
-    padding: 0 5px;
-}
-
 
 
 .tender-tab{
@@ -56,4 +66,12 @@ font-size: 0.9em;
 
 .header-tab{
     color:red;
+}
+
+.bg-dark{
+    background-color: #446483 !important;
+}
+
+.bg-secondary{
+    background-color: #8ca5be !important;
 }

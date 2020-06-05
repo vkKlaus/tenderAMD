@@ -1,7 +1,7 @@
 <?php
 $viewDoc = false;
 
-if (isset($_SESSION['user']['action']) && ($_SESSION['user']['action'] == 1)) {
+if (isset($_SESSION['user']['action']) && ($_SESSION['user']['action'] == 1) ) {
     $viewDoc = true;
 }
 
@@ -84,10 +84,10 @@ if (isset($_GET['sort'])) {
 $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
 
 ?>
-<form action="/" method="POST" class=" pl-2 d-flex justify-content-between align-items-center lex-wrap row bg-secondary">
+<form action="/" method="POST" class=" pl-2 d-flex justify-content-between align-items-center lex-wrap row bg-secondary pt-2">
 
     <div class="d-flex justify-content-start align-items-center">
-        <label class="title-select  text-right">проект:
+        <label class="title-select  text-right ">проект:
             <select class=" m-1 list-select" id="project" name='project'>
                 <option value=0>Все</option>
 
@@ -110,10 +110,10 @@ $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
         <label class="ml-4" for="only-open">
             <input class="form-check-input" type="checkbox" name="onlyOpen" id="only-open" <?= $open ? 'checked' : '' ?>>
           
-            <span class="title-select ">только действующие</span>
+            <span class="check-box__title">только действующие</span>
         </label>
 
-        <input type="submit" name="select" value="Отобрать" class="btn btn-info text-dark btn-select btn-sm ml-4">
+        <input type="submit" name="select" value="Отобрать" class="btn btn-info text-dark btn-select ml-4">
     </div>
     <div class="pr-3">материалы тендера доступны авторизированным пользователям</div>
 </form>
@@ -178,19 +178,19 @@ $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
             }
         ?>
             <div class=" row text-white-50 text-left <?= ($tender['close'] ? 'bg-secondary' : ($bg ? 'bg-light' : 'bg-wite')) ?> mb-2 mt-2 p-1">
-                <div class="col-1 text-dark cell-table"><?= $tender['id'] ?></div>
+                <div class="col-1 text-dark text-center cell-table"><?= $tender['id'] ?></div>
 
-                <div class="col-1 text-dark cell-table"><?= $tender['close'] == 1 ? 'нет' : 'да' ?></div>
+                <div class="col-1 text-dark text-center cell-table"><?= $tender['close'] == 1 ? 'нет' : 'да' ?></div>
 
-                <div class="col-1 text-dark cell-table"><?= $tp ?></div>
+                <div class="col-1 text-dark text-center cell-table"><?= $tp ?></div>
 
-                <div class="col-1 text-dark cell-table"><?= $prj ?></div>
+                <div class="col-1 text-dark text-center cell-table"><?= $prj ?></div>
 
                 <div class="col text-dark cell-table"><?= $tender['description'] ?></div>
 
-                <div class="col-1 text-dark cell-table"><?= $tender['date_open'] ?></div>
+                <div class="col-1 text-dark text-center cell-table"><?= $tender['date_open'] ?></div>
 
-                <div class="col-1 text-dark cell-table"><?= $tender['date_close'] ?></div>
+                <div class="col-1 text-dark text-center cell-table"><?= $tender['date_close'] ?></div>
 
                 <?php if ($viewDoc) { ?>
                     <div class="col-1 text-dark cell-table">

@@ -1,27 +1,12 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . '/module/pdo_db.php';
-require $_SERVER['DOCUMENT_ROOT'] . '/module/pdo_query.php';
-require $_SERVER['DOCUMENT_ROOT'] . '/module/helpers.php';
-
-$requestUri = $_SERVER['REQUEST_URI'];
-
-$title = '';
-$error = '';
-$login = '';
-$email = '';
-$phone = '';
-
-session_start();
-
-$pdo = connect();
-
 
 if (isset($_GET['exit'])) {
     unset($_SESSION['user']);
 }
 
-$host = $_SERVER['HTTP_X_FORWARDED_PROTO'] . '://' . $_SERVER['HTTP_HOST'];
 
+
+$contacts = getTable($pdo, 'contacts');
 ?>
 
 <!DOCTYPE html>
@@ -45,11 +30,24 @@ $host = $_SERVER['HTTP_X_FORWARDED_PROTO'] . '://' . $_SERVER['HTTP_HOST'];
 </head>
 
 <body>
-    <div class="text-center bg-dark text-white-50">
-    <a href="tel: +74959999999">&#9742; +7 495 999-99-99</a>
-    <span>&#8195;&#8195;</span>
-    <a href="mailto: tenderAMD@amdel.ru"> &#9993; tenderAMD@amdel.ru</a>
-    </div>
+    <!-- <div class="text-center bg-dark pt-1">
+        <?php
+        foreach ($contacts as $cont) {
+            if ($cont['type'] == 'tel' || $cont['type'] == 'mailto') {
+        ?>
+
+                <span>&#8195;</span>
+                <a href="<?= $cont['type'] . ':' . ' ' . $cont['contact'] ?>">
+                    <span class=" text-white-50">
+                        <?= $cont['specchar'] . '&#8195;' . $cont['info'] ?>
+                    </span>
+                </a>
+
+                <span>&#8195;</span>
+        <?php }
+        } ?>
+
+    </div> -->
     <nav class="navbar navbar-expand-lg navbar-light bg-dark">
         <a class="navbar-brand" href="/"><img src="/img/logo4.png" class="logo-img" alt="logo-AMD"></a>
         <button class="navbar-toggler bg-info" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,8 +56,8 @@ $host = $_SERVER['HTTP_X_FORWARDED_PROTO'] . '://' . $_SERVER['HTTP_HOST'];
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link text-light mr-3" href="/"><span class="<?= $main ? 'active' : '' ?>">Тендерная площадка</span></a>
+                <li class="nav-item">
+                    <a class="nav-link text-light mr-3" href="/"><span class="<?= $main ? 'active' : '' ?>">Реестр тендеров</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-light mr-3"" href="/views/about/"> <span class="<?= $rules ? 'active' : '' ?>">Правила участия</span></a>
@@ -70,14 +68,15 @@ $host = $_SERVER['HTTP_X_FORWARDED_PROTO'] . '://' . $_SERVER['HTTP_HOST'];
 
             </ul>
             <?php
-            if (isset($_SESSION['user'])) { ?>
+            if (isset($_SESSION['user']) && !isset($_SESSION['user']['error'])) { ?>
                 <div>
-                    <span class='text-secondary'><?= $_SESSION['user']['inn'] ?></span>
+                    <span class='text-secondary'>ИНН: <?= $_SESSION['user']['inn'] ?> &#8195;</span>
 
                     <a href="/?exit" class="mr-5 text-success h5 btn btn-outline-info  mt-1 pl-5 pr-5 ">Выход</a>
                 </div>
             <?php } else { ?>
                 <div>
+                    <span class='text-danger'><?= isset($_SESSION['user']['error']) ? $_SESSION['user']['error'] : '' ?> &#8195;</span>
                     <a href="/views/authorization/authorization.php" class="mr-5 text-success h5 btn btn-outline-info  mt-1 pl-5 pr-5 ">Вход</a>
                 </div>
             <?php } ?>

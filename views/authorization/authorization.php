@@ -1,39 +1,50 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/header.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/headerConf.php';
+
+unset($_SESSION['user']);
 
 if (isset($_POST['enter'])) {
 
-    $user = getUser($pdo, $_POST['login']);
+    $user = getUser($pdo, $_POST['login'],'name');
 
     if ($user) {
+
         if (!password_verify($_POST['password'], $user['password'])) {
-            $error .= 'ошибка авторизации <br>';
+            $_SESSION['user']['error'] = 'ошибка авторизации';
         } elseif (!$user['action']) {
-            $error .= 'пользователь не работает с документами <br>';
+            $_SESSION['user']['error'] = 'пользователь не работает с документами';
         } else {
             $_SESSION['user'] = $user;
-            header('Location: ' . $host);
+            unset($_SESSION['user']['error']);
         }
-     
+
+        
     } else {
-        $error .= 'пользователь нет найден <br>';
+        $_SESSION['user']['error']= 'пользователь нет найден';
+    }
+
+    if ($host) {
+        header('Location: ' . $host);
     }
 }
-?>
-<p class="mt-3">поля, помеченные *, обязательны для заполнения</p>
 
+require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/header.php';
+
+?>
+<p class="mt-3 text-center">поля, помеченные *, обязательны для заполнения</p>
+<hr>
 <div class="d-flex justify-content-center mt-5">
     <form method="POST" class="enter-form  col-12 col-md-4">
         <div class="form-group">
-            <label class="enter-label" for="login-id">ИНН <sup>*</sup></label>
+            <label class="enter-label" for="login-id">Имя / логин <sup>*</sup></label>
 
-            <input type="number" name="login" value="" id="login-id" class="enter-field form-control" required/>
+            <input type="text" name="login" value="" id="login-id" class="enter-field form-control" required />
         </div>
 
         <div class="form-group">
             <label class="enter-label" for="password-id">Пароль <sup>*</sup></label>
 
-            <input id="password_id" name="password" type="password" value="" id="password-id" class="enter-field form-control" required/>
+            <input id="password_id" name="password" type="password" value="" id="password-id" class="enter-field form-control" required />
         </div>
 
 
@@ -41,7 +52,7 @@ if (isset($_POST['enter'])) {
 
     </form>
 </div>
-<p class="text-center text-danger mt-3"><?= $error?></p>
+<p class="text-center text-danger mt-3"><?= $error ?></p>
 <div class="paginator d-flex justify-content-center mt-5">
     <a href="/views/authorization/registration.php" class="btn btn-outline-dark pl-5 pr-5 mr-2"><span>регистрация</span></a>
 

@@ -2,39 +2,40 @@
 $main = false;
 $rules = false;
 $contact = true;
+require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/headerConf.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/header.php';
 ?>
 <div class="row h5 text-dark mt-5 mb-5">
     <div class="col text-center">
-        <div class="row mt-3">
-            <div class="col-3 text-right">
-                телефон:
-            </div>
+        <?php
+        foreach ($contacts as $cont) { ?>
+            <div class="row mt-3">
+                <div class="col-3 text-right">
+                    <?= $cont['title'] ?>:
+                </div>
 
-            <div class="col text-left">
-                <a href="tel: +74959999999"><span class="text-dark">&#9742; +7 495 999-99-99</span></a>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-3 text-right">
-                электронная почта:
-            </div>
+                <div class="col text-left">
+                    <?php
 
-            <div class="col text-left">
-                <a href="mailto: tenderAMD@amdel.ru"><span class="text-dark"> &#9993; tenderAMD@amdel.ru</span></a>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-3 text-right">
-                почта:
-            </div>
+                    if ($cont['type'] == 'tel' || $cont['type'] == 'mailto') {
+                    ?>
+                        <a href="<?= $cont['type'] . ':' . ' ' . $cont['contact'] ?>">
+                            <span class="text-dark">
+                                <?= $cont['specchar'] . '&#8195;' .  $cont['info'] ?>
+                            </span>
+                        </a>
+                    <?php } else { ?>
 
-            <div class="col text-left">
-                123456, г.Москва, Ленинградский проспект, д.33, стр.1
+                        <?= $cont['specchar'] . '&#8195;'  . $cont['info'] ?>
+
+                    <?php } ?>
+                </div>
             </div>
-        </div>
+        <?php } ?>
     </div>
 </div>
+
+
 <hr>
 <div class="row d-flex justify-content-md-center justify-content-md-around text-muted  flex-wrap">
     <div class="col-12 col-md-3">

@@ -3,9 +3,10 @@
 function getTable($pdo, $table, $where = NULL,  $sort = NULL, $limit = NULL)
 {
     $sql = "SELECT * FROM `$table` 
-    WHERE ".($table == 'tenders' ? '`delete`=0 AND ' : '') . ($where == NULL ? '1' : "$where") 
+    WHERE " . ($table == 'tenders' ? '`delete`=0 AND ' : '') . ($where == NULL ? '1' : "$where")
         . ($sort == NULL ? "" : " ORDER BY $sort")
         . ($limit == NULL ? "" : " LIMIT $limit");
+
     $stmt = $pdo->prepare($sql);
 
     $stmt->execute();
@@ -35,15 +36,17 @@ function getCountElements($pdo,  $table,  $where = NULL)
 
 
 
-function getUser($pdo,  $login)
+function getUser($pdo,  $login, $field)
 {
-    $login = (int) htmlspecialchars($login, ENT_QUOTES);
+    $login =  htmlspecialchars($login, ENT_QUOTES);
 
-    $sql = "SELECT * FROM `users` WHERE `inn`=$login LIMIT 1";
+    $sql = "SELECT * FROM `users` WHERE `$field`=:login LIMIT 1";
 
     $stmt = $pdo->prepare($sql);
 
-    $stmt->execute();
+    $stmt->execute([
+        'login' => $login
+    ]);
 
     $users = $stmt->fetchAll();
 
@@ -53,10 +56,62 @@ function getUser($pdo,  $login)
 
     return $users[0];
 }
+function getUserRecovery($pdo,  $data)
+{
+
+    $data['name'] = htmlspecialchars($data['name'], ENT_QUOTES);
+
+    $data['login'] = htmlspecialchars($data['login'], ENT_QUOTES);
+
+    $data['email'] = htmlspecialchars($data['email'], ENT_QUOTES);
+
+
+    $sql = "SELECT * FROM `users` WHERE `inn`=:login AND `name`=:name AND `email`=:email LIMIT 1";
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([
+        'login' => $data['login'],
+        'name' => $data['name'],
+        'email' => $data['email'],
+
+    ]);
+
+    $users = $stmt->fetchAll();
+
+    if (count($users) == 0) {
+        return [];
+    }
+
+    $sql = 'UPDATE 
+                `users` 
+            SET 
+                `password`=:password,
+                `action`=:action
+            WHERE
+                `inn`=:login AND
+                `name`=:name AND 
+                `email`=:email';
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([
+        'login' => $data['login'],
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => password_hash($data['password_1'], PASSWORD_BCRYPT),
+        'action' => '0'
+    ]);
+
+    return $users[0];
+}
 
 
 function addUser($pdo, $data)
 {
+
+    $data['name'] = htmlspecialchars($data['name'], ENT_QUOTES);
+
     $data['login'] = htmlspecialchars($data['login'], ENT_QUOTES);
 
     $data['email'] = htmlspecialchars($data['email'], ENT_QUOTES);
@@ -68,7 +123,8 @@ function addUser($pdo, $data)
         `inn`,
         `email`,
         `phone`,
-        `password`
+        `password`,
+        `name`
       
     ) 
     values 
@@ -76,7 +132,8 @@ function addUser($pdo, $data)
         :inn, 
         :email,
         :phone, 
-        :password       
+        :password,
+        :name      
         )';
 
     $stmt = $pdo->prepare($sql);
@@ -84,9 +141,10 @@ function addUser($pdo, $data)
     $result = $stmt->execute(
         [
             'inn' => $data['login'],
-            'email' => $data['login'],
+            'email' => $data['email'],
             'phone' => $data['phone'],
-            'password' => password_hash($data['password_1'], PASSWORD_BCRYPT)
+            'password' => password_hash($data['password_1'], PASSWORD_BCRYPT),
+            'name' => $data['name']
         ]
     );
 
@@ -126,7 +184,7 @@ function createDB($pdo)
 
     $stmt = $pdo->prepare($sql);
 
-    for ($i = 874; $i <= 1000; $i++) {
+    for ($i = 1; $i <= 1000; $i++) {
 
         $prj = rand(1, 4);
         $tp = rand(1, 8);

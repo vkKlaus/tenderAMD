@@ -1,12 +1,13 @@
 <?php
+require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/headerConf.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/header.php';
 
 if (isset($_POST['registration'])) {
 
     $inn = valid_inn($_POST['login'], 1);
 
-    if (getUser($pdo, $_POST['login'])) {
-        $error .= 'пользователь уже зарегистрирован <br>';
+    if (getUser($pdo, $_POST['login'],'inn')) {
+        $error .= 'по данному ИНН пользователь уже зарегистрирован <br>';
     } else {
 
         if ($inn == 0) {
@@ -37,13 +38,14 @@ if (isset($_POST['registration'])) {
             $login = $_POST['login'];
             $email = $_POST['email'];
             $phone = $_POST['phone'];
+            $name = $_POST['name'];
         } else {
             $title = 'введенные данные соответствуют требованиям для регистрации';
 
             $user = addUser($pdo, $_POST);
 
             if ($user) {
-                $title .= 'данные отправлены для проверки. О результатах вам будет отправлено сообщение на зарегистрированный email';
+                $title .= 'данные отправлены для проверки. О результатах вам будет отправлено сообщение на зарегистрированный email. Пока Вам доступен только просмотр.';
             } else {
                 $error .= 'ошибка записи пользователя в базу. обратитесь по телефонам, указанным в контактах';
             }
@@ -52,49 +54,60 @@ if (isset($_POST['registration'])) {
 }
 ?>
 
-<p class="mt-3 text-center">Поля, помеченные *, обязательны для заполнения.</p>
-<p class="mt-3 text-center">Пароль должен состоять из букв латинского алфавите, на разных регистрах, и цифр. Длинна пароля от 6 до 10 символов. </p>
-<hr>
-<div class="d-flex justify-content-center mt-5">
-    <form method="POST" class="enter-form  col-12 col-md-4">
-        <div class="form-group">
-            <label class="enter-label" for="login-id">ИНН <sup>*</sup><span>(будет использоваться как логин)</span></label>
+<?php if (!$title) { ?>
+    <p class="mt-3 text-center">Поля, помеченные *, обязательны для заполнения.</p>
+    <p class="text-center">Пароль должен состоять из букв латинского алфавите, на разных регистрах, и цифр. Длинна пароля от 6 до 10 символов. </p>
+    <hr>
+    <div class="d-flex justify-content-center mt-5">
+        <form method="POST" class="enter-form  col-12 col-md-4">
+            <div class="form-group">
+                <label class="enter-label" for="name-id">Имя / логин<sup>*</sup></label>
 
-            <input type="number" name="login" value="<?= $login ?>" id="login-id" class="enter-field form-control" required>
-        </div>
+                <input type="text" name="name" value="<?= $name ?>" id="name-id" class="enter-field form-control" required>
+            </div>
 
-        <div class="form-group">
-            <label class="enter-label" for="email-id">e-mail <sup>*</sup></label>
+            <div class="form-group">
+                <label class="enter-label" for="login-id">ИНН <sup>*</sup></label>
 
-            <input type="email" name="email" value="<?= $email ?>" id="email-id" class="enter-field form-control" required>
-        </div>
+                <input type="number" name="login" value="<?= $login ?>" id="login-id" class="enter-field form-control" required>
+            </div>
 
-        <div class="form-group">
-            <label class="enter-label" for="phone-id">телефон <sup>*</sup></label>
+            <div class="form-group">
+                <label class="enter-label" for="email-id">e-mail <sup>*</sup></label>
 
-            <input type="phone" name="phone" value="<?= $phone ?>" id="phonel-id" class="enter-field form-control" required>
-        </div>
+                <input type="email" name="email" value="<?= $email ?>" id="email-id" class="enter-field form-control" required>
+            </div>
 
-        <div class="form-group">
-            <label class="enter-label" for="password-id-1">введите пароль <sup>*</sup></label>
+            <div class="form-group">
+                <label class="enter-label" for="phone-id">телефон <sup>*</sup></label>
 
-            <input id="password_id" name="password_1" type="password" value="" id="password-id-1" class="enter-field form-control" required />
-        </div>
+                <input type="phone" name="phone" value="<?= $phone ?>" id="phonel-id" class="enter-field form-control" required placeholder="+7 DDD DDD-DD-DD">
+            </div>
 
-        <div class="form-group">
-            <label class="enter-label" for="password-id-2">повторите пароль <sup>*</sup></label>
+            <div class="form-group">
+                <label class="enter-label" for="password-id-1">пароль <sup>*</sup></label>
 
-            <input id="password_id" name="password_2" type="password" value="" id="password-id-2" class="enter-field form-control" required />
-        </div>
+                <input id="password_id" name="password_1" type="password" value="" id="password-id-1" class="enter-field form-control" required />
+            </div>
 
-        <input type="submit" value="Зарегистрироваться" name="registration" class="enter-button btn btn-primary" />
+            <div class="form-group">
+                <label class="enter-label" for="password-id-2">повторите пароль <sup>*</sup></label>
 
-    </form>
-</div>
+                <input id="password_id" name="password_2" type="password" value="" id="password-id-2" class="enter-field form-control" required />
+            </div>
+
+            <input type="submit" value="Зарегистрироваться" name="registration" class="enter-button btn btn-primary" />
+
+        </form>
+    </div>
 
 
-<p class="text-center text-danger mt-3"><?= $error ?></p>
-<p class="text-center text-success mt-3"><?= $title ?></p>
+    <p class="text-center text-danger mt-3"><?= $error ?></p>
+
+<?php } else { ?>
+    <p class="text-center text-success mt-3"><?= $title ?></p>
+
+<?php } ?>
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/footer.php';
 ?>
