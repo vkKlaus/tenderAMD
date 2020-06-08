@@ -66,6 +66,13 @@ $contacts = getTable($pdo, 'contacts');
                     <a class="nav-link text-light mr-3"" href="/views/contact/"> <span class="<?= $contact ? 'active' : '' ?>">Контакты</span></a>
                 </li>
 
+                <?php
+                if (isset($_SESSION['user']) && ($_SESSION['user']['admin'] == 1)) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link text-light mr-3"" href="/views/layouts/admin.php"> <span class="<?= $contact ? 'active' : '' ?>">admin</span></a>
+                    </li>
+                <?php } ?>
+
             </ul>
             <?php
             if (isset($_SESSION['user']) && !isset($_SESSION['user']['error'])) { ?>

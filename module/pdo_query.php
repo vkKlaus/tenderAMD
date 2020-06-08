@@ -149,7 +149,7 @@ function addUser($pdo, $data)
     );
 
     if ($result) {
-        return getUser($pdo, $data['login']);
+        return getUser($pdo, $data['login'], 'inn');
     } else {
         return [];
     }
@@ -218,4 +218,23 @@ function createDB($pdo)
             ]
         );
     }
+}
+
+function   actionUser($pdo, $act)
+{
+  
+  
+  $sql = 'UPDATE 
+    `users` 
+SET 
+    `action`=:action
+WHERE
+    `id`=:id';
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([
+        'id' => (int) $act['id'],
+        'action' => (int) $act['checkbox']
+    ]);
 }

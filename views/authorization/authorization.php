@@ -23,8 +23,14 @@ if (isset($_POST['enter'])) {
         $_SESSION['user']['error']= 'пользователь нет найден';
     }
 
+    
     if ($host) {
-        header('Location: ' . $host);
+        if ($user['admin']==1){
+            header('Location: ' . $host.'/views/layouts/admin.php');
+        }else{
+            header('Location: ' . $host);
+        }
+   
     }
 }
 

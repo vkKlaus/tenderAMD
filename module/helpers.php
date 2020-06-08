@@ -72,7 +72,7 @@ function valid_phone($phone)
 
 function valid_password($password)
 {
-    $regexp = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,10}$/';
+    $regexp = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$/';
 
     if (preg_match($regexp, $password)) {
         return true;

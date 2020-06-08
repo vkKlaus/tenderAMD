@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 05 2020 г., 14:20
+-- Время создания: Июн 08 2020 г., 12:41
 -- Версия сервера: 8.0.12
 -- Версия PHP: 7.2.10
 
@@ -1152,8 +1152,16 @@ CREATE TABLE `users` (
   `action` tinyint(1) NOT NULL DEFAULT '0',
   `name` varchar(1024) DEFAULT NULL,
   `address_legal` varchar(1024) DEFAULT NULL,
-  `address_actual` varchar(1024) DEFAULT NULL
+  `address_actual` varchar(1024) DEFAULT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `users`
+--
+
+INSERT INTO `users` (`id`, `inn`, `email`, `phone`, `password`, `action`, `name`, `address_legal`, `address_actual`, `admin`) VALUES
+(4, 'admin', 'vlad25013600@gmail.com', '+79687304028', '$2y$10$2ZtHF5qLCxlHM71LfHeCOuUoyOWOu3wM1Nnvfvi7aLNQLLuKqttlW', 1, 'admin', NULL, NULL, 1);
 
 --
 -- Индексы сохранённых таблиц
@@ -1227,7 +1235,7 @@ ALTER TABLE `type`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
