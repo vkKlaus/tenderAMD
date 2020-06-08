@@ -222,19 +222,34 @@ function createDB($pdo)
 
 function   actionUser($pdo, $act)
 {
-  
-  
-  $sql = 'UPDATE 
-    `users` 
-SET 
-    `action`=:action
-WHERE
-    `id`=:id';
+
+
+    $sql = 'UPDATE 
+                `users` 
+            SET 
+                `action`=:action
+            WHERE
+                `id`=:id';
 
     $stmt = $pdo->prepare($sql);
 
     $stmt->execute([
         'id' => (int) $act['id'],
         'action' => (int) $act['checkbox']
+    ]);
+}
+
+function   delUser($pdo, $act)
+{
+    $sql = 'DELETE
+            FROM 
+                `users` 
+            WHERE
+                 `id`=:id';
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([
+        'id' => (int) $act['id'],
     ]);
 }

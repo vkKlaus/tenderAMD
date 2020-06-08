@@ -15,6 +15,9 @@ $name = '';
 $pdo = connect();
 
 
+ini_set('session.gc_maxlifetime', 10800);
+session_start();
+
 if (isset($_SERVER['HTTP_REFERER'])) {
     $host = $_SERVER['HTTP_REFERER'];
     $pos = strpos($host, 'views');
@@ -27,8 +30,9 @@ else{
     $host = '';
 }
 
+if (!isset($_SESSION['admin'])){
+    $_SESSION['admin']=0;
+}
 
 
 
-ini_set('session.gc_maxlifetime', 10800);
-session_start();

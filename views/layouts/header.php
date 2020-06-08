@@ -2,6 +2,8 @@
 
 if (isset($_GET['exit'])) {
     unset($_SESSION['user']);
+    unset($_SESSION['admin']);
+
 }
 
 
@@ -67,7 +69,7 @@ $contacts = getTable($pdo, 'contacts');
                 </li>
 
                 <?php
-                if (isset($_SESSION['user']) && ($_SESSION['user']['admin'] == 1)) { ?>
+                if (isset($_SESSION['admin']) && ($_SESSION['admin'] == 1)) { ?>
                     <li class="nav-item">
                         <a class="nav-link text-light mr-3"" href="/views/layouts/admin.php"> <span class="<?= $contact ? 'active' : '' ?>">admin</span></a>
                     </li>
@@ -75,7 +77,7 @@ $contacts = getTable($pdo, 'contacts');
 
             </ul>
             <?php
-            if (isset($_SESSION['user']) && !isset($_SESSION['user']['error'])) { ?>
+            if (isset($_SESSION['user']) && !isset($_SESSION['user']['error']) && !isset($_SESSION['user']['error'])) { ?>
                 <div>
                     <span class='text-secondary'>ИНН: <?= $_SESSION['user']['inn'] ?> &#8195;</span>
 

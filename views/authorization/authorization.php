@@ -5,7 +5,7 @@ unset($_SESSION['user']);
 
 if (isset($_POST['enter'])) {
 
-    $user = getUser($pdo, $_POST['login'],'name');
+    $user = getUser($pdo, $_POST['login'], 'name');
 
     if ($user) {
 
@@ -16,21 +16,20 @@ if (isset($_POST['enter'])) {
         } else {
             $_SESSION['user'] = $user;
             unset($_SESSION['user']['error']);
+            if ($host) {
+                if ($user['admin'] == 1) {
+                    $_SESSION['admin'] = 1;
+                    header('Location: ' . $host . '/views/layouts/admin.php');
+                }
+            }
         }
-
-        
     } else {
-        $_SESSION['user']['error']= 'пользователь нет найден';
+        $_SESSION['user']['error'] = 'пользователь нет найден';
     }
 
-    
+
     if ($host) {
-        if ($user['admin']==1){
-            header('Location: ' . $host.'/views/layouts/admin.php');
-        }else{
-            header('Location: ' . $host);
-        }
-   
+        header('Location: ' . $host);
     }
 }
 

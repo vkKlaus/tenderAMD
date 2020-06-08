@@ -5,13 +5,17 @@ $contact = false;
 require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/headerConf.php';
 
 
-if (isset($_POST['action'])){
-    if (!isset($_POST['checkbox'])){
-        $_POST['checkbox']='1'; 
-    }else{
-        $_POST['checkbox']='0'; 
+if (isset($_POST['action'])) {
+    if (!isset($_POST['checkbox'])) {
+        $_POST['checkbox'] = '1';
+    } else {
+        $_POST['checkbox'] = '0';
     }
-    actionUser($pdo,$_POST);
+    actionUser($pdo, $_POST);
+}
+
+if (isset($_POST['delUser'])) {
+    delUser($pdo,$_POST);
 }
 
 $users = getTable($pdo, 'users');
@@ -42,7 +46,10 @@ require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/header.php';
             адрес фактический
         </div>
         <div class="col-1">
-            разрешено
+            <div class="row">
+                <div class="col-6 border-right">разреш.</div>
+                <div class="col-6">удл.</div>
+            </div>
         </div>
     </div>
     <?php
@@ -73,13 +80,25 @@ require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/header.php';
                 <?= $user['address_actual'] ?>
             </div>
             <div class="col-1">
-               <form method="POST">
-               <button type="submit"  name="action" class="enter-button btn btn-outline-primary btn-sm m-1" ><?= ($user['action'] ? '&#10004;' : '&#10008;')?></button>
 
-                   <input type="text" name="id" value="<?= $user['id'] ?>" style="visibility: hidden;   height: 0; width: 0;" >  
-                   <input type="checkbox" name="checkbox" value="1"  <?= ($user['action'] ? 'checked' : '')?> style="visibility: hidden">
-  
-               </form>
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-6 border-right">
+                            <button type="submit" name="action" class="enter-button btn btn-outline-primary btn-sm m-1"><?= ($user['action'] ? '&#10004;' : '&#10008;') ?></button>
+                        </div>
+                        
+                        <div class="col-6"> 
+                        <?php if (! $user['admin']){?>
+                            <button type="submit" name="delUser" class="enter-button btn btn-outline-primary btn-sm m-1">&mdash;</button>
+                        <?php } ?>
+                        </div>
+                        
+
+                        <input type="text" name="id" value="<?= $user['id'] ?>" style="visibility: hidden;   height: 0; width: 0;">
+                        <input type="checkbox" name="checkbox" value="1" <?= ($user['action'] ? 'checked' : '') ?> style="visibility: hidden">
+                    </div>
+                </form>
+
             </div>
         </div>
     <?php }
