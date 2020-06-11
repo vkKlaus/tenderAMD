@@ -155,70 +155,70 @@ function addUser($pdo, $data)
     }
 };
 
-function createDB($pdo)
-{
-    $sql = 'INSERT INTO `tenders`
-        (
-            `id`, 
-            `delete`, 
-            `close`, 
-            `type`, 
-            `project`, 
-            `description`, 
-            `date_open`, 
-            `date_close`, 
-            `documents`
-        ) 
-        VALUES 
-        (
-            :id, 
-            :delete, 
-            :close, 
-            :type, 
-            :projec, 
-            :description, 
-            :date_open, 
-            :date_close, 
-            :documents
-            )';
+// function createDB($pdo)
+// {
+//     $sql = 'INSERT INTO `tenders`
+//         (
+//             `id`, 
+//             `delete`, 
+//             `close`, 
+//             `type`, 
+//             `project`, 
+//             `description`, 
+//             `date_open`, 
+//             `date_close`, 
+//             `documents`
+//         ) 
+//         VALUES 
+//         (
+//             :id, 
+//             :delete, 
+//             :close, 
+//             :type, 
+//             :projec, 
+//             :description, 
+//             :date_open, 
+//             :date_close, 
+//             :documents
+//             )';
 
-    $stmt = $pdo->prepare($sql);
+//     $stmt = $pdo->prepare($sql);
 
-    for ($i = 1; $i <= 1000; $i++) {
+//     for ($i = 1; $i <= 1000; $i++) {
 
-        $prj = rand(1, 4);
-        $tp = rand(1, 8);
-        $close = rand(0, 1);
-        $y = rand(2015, 2020);
-        $m = rand(1, 12);
-        $d = rand(1, 28);
-        $cls = rand(14, 30);
-        $do = new DateTime("$y-" . ($m < 10 ? "0" : "") . "$m-" . ($d < 10 ? "0" : "") . "$d 00:00:00");
-        $doF = ($do->format('Y-m-d'));
-        $lenTnd = '+' . rand(15, 20) . ' day';
-        $dc = $do->modify($lenTnd);
-        $dcF = ($dc->format('Y-m-d'));
+//         $prj = rand(1, 4);
+//         $tp = rand(1, 8);
+//         $close = rand(0, 1);
+//         $y = rand(2015, 2020);
+//         $m = rand(1, 12);
+//         $d = rand(1, 28);
+//         $cls = rand(14, 30);
+//         $do = new DateTime("$y-" . ($m < 10 ? "0" : "") . "$m-" . ($d < 10 ? "0" : "") . "$d 00:00:00");
+//         $doF = ($do->format('Y-m-d'));
+//         $lenTnd = '+' . rand(15, 20) . ' day';
+//         $dc = $do->modify($lenTnd);
+//         $dcF = ($dc->format('Y-m-d'));
 
-        $tnd = "тендер №$i: проект $prj; тип $tp; дата начала: " . $doF . "; окончание приема заявок: " . $dcF . ". тендер закрыт: " . ($close == 0 ? "нет" : "да");
-
-
+//         $tnd = "тендер №$i: проект $prj; тип $tp; дата начала: " . $doF . "; окончание приема заявок: " . $dcF . ". тендер закрыт: " . ($close == 0 ? "нет" : "да");
 
 
-        $result = $stmt->execute(
-            [
-                'id' => $i,
-                'delete' => 0,
-                'close' => $close,
-                'type' => $tp,
-                'projec' => $prj,
-                'description' => $tnd,
-                'date_open' => $do->format('Y-m-d'),
-                'date_close' => $dc->format('Y-m-d'),
-                'documents' => "tenderDoc$i.zip"
-            ]
-        );
-    }
-}
+
+
+//         $result = $stmt->execute(
+//             [
+//                 'id' => $i,
+//                 'delete' => 0,
+//                 'close' => $close,
+//                 'type' => $tp,
+//                 'projec' => $prj,
+//                 'description' => $tnd,
+//                 'date_open' => $do->format('Y-m-d'),
+//                 'date_close' => $dc->format('Y-m-d'),
+//                 'documents' => "tenderDoc$i.zip"
+//             ]
+//         );
+//     }
+// }
 
 function   actionUser($pdo, $act)
 {

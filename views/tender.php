@@ -1,7 +1,7 @@
 <?php
 $viewDoc = false;
 
-if (isset($_SESSION['user']['action']) && ($_SESSION['user']['action'] == 1) ) {
+if (isset($_SESSION['user']['action']) && ($_SESSION['user']['action'] == 1)) {
     $viewDoc = true;
 }
 
@@ -9,20 +9,7 @@ $project = getTable($pdo, 'project');
 
 $type = getTable($pdo, 'type');
 
-if (isset($_GET['page'])) {
-    if ($_GET['page'] == 'left') {
-        $_SESSION['page'] = $_SESSION['page'] - 1;
-        if ($_SESSION['page'] < 0) {
-            $_SESSION['page'] = 0;
-        }
-    } elseif ($_GET['page'] == 'right') {
-        $_SESSION['page'] = $_SESSION['page'] + 1;
-    }
-} else {
-    $_SESSION['page'] = 0;
-}
 
-$limit = ' ' . ($_SESSION['page'] * 20) . ', 20';
 
 if (!isset($_SESSION['project'])) {
     $_SESSION['project'] = 0;
@@ -74,12 +61,31 @@ if (isset($_GET['sort'])) {
     }
     $sort = '`' . $_SESSION['sort']['fild'] . '` ' . $_SESSION['sort']['direct'];
 } else {
-    $sort = '';
+    $sort = '`date_open` DESC, `date_close` ASC' ;
 };
 
 
+if (isset($_GET['page'])) {
+    if ($_GET['page'] == 'left') {
+        $_SESSION['page'] = $_SESSION['page'] - 1;
+        if ($_SESSION['page'] < 0) {
+            $_SESSION['page'] = 0;
+        }
+    } elseif ($_GET['page'] == 'right') {
+        $_SESSION['page'] = $_SESSION['page'] + 1;
+    } elseif ($_GET['page'] == 'begin') {
+        $_SESSION['page'] = 0;
+    } elseif ($_GET['page'] == 'end') {
 
+        $page=(getCountElements($pdo,'tenders',$where)-20)/20;
 
+        $_SESSION['page'] =$page;
+    }
+} else {
+    $_SESSION['page'] = 0;
+}
+
+$limit = ' ' . ($_SESSION['page'] * 20) . ', 20';
 
 $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
 
@@ -109,7 +115,7 @@ $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
 
         <label class="ml-4" for="only-open">
             <input class="form-check-input" type="checkbox" name="onlyOpen" id="only-open" <?= $open ? 'checked' : '' ?>>
-          
+
             <span class="check-box__title">только действующие</span>
         </label>
 
@@ -204,15 +210,21 @@ $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
         <hr>
 
         <div class="row paginator d-flex justify-content-center mb-3">
-            <div class="col text-right">
-                <a href="/?page=left" class="btn btn-outline-dark pl-5 pr-5 ">
-                    <span class="h4">&#171;</span>
-                </a>
-            </div>
 
-            <div class="col text-left">
-                <a href="/?page=right" class="btn btn-outline-dark pl-5 pr-5 ">
-                    <span class="h4">&#187;</span>
-                </a>
-            </div>
+            <a href="/?page=begin" class="btn btn-outline-dark pl-5 pr-5 ml-1 mr-1">
+                <span class="h4">|&#171;&#171;</span>
+            </a>
+
+            <a href="/?page=left" class="btn btn-outline-dark pl-5 pr-5  ml-1 mr-1">
+                <span class="h4">&#171;</span>
+            </a>
+
+            <a href="/?page=right" class="btn btn-outline-dark pl-5 pr-5  ml-1 mr-1">
+                <span class="h4">&#187;</span>
+            </a>
+
+            <a href="/?page=end" class="btn btn-outline-dark pl-5 pr-5  ml-1 mr-1">
+                <span class="h4">&#187;&#187;|</span>
+            </a>
+
         </div>
