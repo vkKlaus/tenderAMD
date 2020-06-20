@@ -6,8 +6,6 @@ function connect()
 
     if ($pdo === null) {
 
-     
-  
         // $host = 'localhost';
         // $db   = 'j96873ov_tender';
         // $user = 'j96873ov_tender';
@@ -27,7 +25,7 @@ function connect()
         $charset = 'utf8';
 
         $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-       
+
         $opt = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -35,21 +33,18 @@ function connect()
         ];
 
         $pdo = new PDO($dsn, $user, $pass, $opt);
-        
-        
+
         $sql ="SET NAMES 'utf8'";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
-        
+
         $sql ="SET CHARACTER SET 'utf8'";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
-        
+
         $sql ="SET SESSION collation_connection = 'utf8_general_ci'";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
-        
-        
     }
 
 

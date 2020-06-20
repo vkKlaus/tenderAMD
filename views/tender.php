@@ -1,9 +1,12 @@
 <?php
-$viewDoc = false;
 
+
+$viewDoc = false;
 if (isset($_SESSION['user']['action']) && ($_SESSION['user']['action'] == 1)) {
     $viewDoc = true;
 }
+
+
 
 $project = getTable($pdo, 'project');
 
@@ -20,7 +23,7 @@ if (!isset($_SESSION['type'])) {
 }
 
 if (!isset($_SESSION['onlyOpen'])) {
-    $_SESSION['onlyOpen'] = 0;
+    $_SESSION['onlyOpen'] = 1;
 }
 
 if (isset($_POST['select'])) {
@@ -32,6 +35,9 @@ if (isset($_POST['select'])) {
     $tp = $_SESSION['type'];
     $open =  $_SESSION['onlyOpen'];
 };
+
+
+
 
 $where = '';
 
@@ -61,7 +67,7 @@ if (isset($_GET['sort'])) {
     }
     $sort = '`' . $_SESSION['sort']['fild'] . '` ' . $_SESSION['sort']['direct'];
 } else {
-    $sort = '`date_open` DESC, `date_close` ASC' ;
+    $sort = '`date_open` DESC, `date_close` ASC';
 };
 
 
@@ -77,15 +83,15 @@ if (isset($_GET['page'])) {
         $_SESSION['page'] = 0;
     } elseif ($_GET['page'] == 'end') {
 
-        $page=(getCountElements($pdo,'tenders',$where)-20)/20;
+        $page = (getCountElements($pdo, 'tenders', $where) - 25) / 25;
 
-        $_SESSION['page'] =$page;
+        $_SESSION['page'] = $page;
     }
 } else {
     $_SESSION['page'] = 0;
 }
 
-$limit = ' ' . ($_SESSION['page'] * 20) . ', 20';
+$limit = ' ' . ($_SESSION['page'] * 25) . ', 25';
 
 $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
 
@@ -162,54 +168,59 @@ $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
             <?php } ?>
         </div>
         <!------------------------------------------------------------------------------------->
-        <?php
-        $bg = true;
-        foreach ($tenders as $tender) {
+        <div class="box_tender">
+            <?php
+            $bg = true;
+            foreach ($tenders as $tender) {
 
-            foreach ($project as $value) {
-                if ($value['id'] == $tender['project']) {
+                foreach ($project as $value) {
+                    if ($value['id'] == $tender['project']) {
 
-                    $prj = $value['name'];
+                        $prj = $value['name'];
 
-                    break;
+                        break;
+                    }
                 }
-            }
-            foreach ($type as $value) {
-                if ($value['id'] == $tender['type']) {
+                foreach ($type as $value) {
+                    if ($value['id'] == $tender['type']) {
 
-                    $tp = $value['name'];
+                        $tp = $value['name'];
 
-                    break;
+                        break;
+                    }
                 }
-            }
-        ?>
-            <div class=" row text-white-50 text-left <?= ($tender['close'] ? 'bg-secondary' : ($bg ? 'bg-light' : 'bg-wite')) ?> mb-2 mt-2 p-1">
-                <div class="col-1 text-dark text-center cell-table"><?= $tender['id'] ?></div>
+            ?>
+                <div class=" row text-white-50 text-left <?= ($tender['close'] ? 'bg-secondary' : ($bg ? 'bg-light' : 'bg-wite')) ?> mb-2 mt-2 p-1">
+                    <div class="col-1 text-dark text-center cell-table"><?= $tender['id'] ?></div>
 
-                <div class="col-1 text-dark text-center cell-table"><?= $tender['close'] == 1 ? 'нет' : 'да' ?></div>
+                    <div class="col-1 text-dark text-center cell-table"><?= $tender['close'] == 1 ? 'нет' : 'да' ?></div>
 
-                <div class="col-1 text-dark text-center cell-table"><?= $tp ?></div>
+                    <div class="col-1 text-dark text-center cell-table"><?= $tp ?></div>
 
-                <div class="col-1 text-dark text-center cell-table"><?= $prj ?></div>
+                    <div class="col-1 text-dark text-center cell-table"><?= $prj ?></div>
 
-                <div class="col text-dark cell-table"><?= $tender['description'] ?></div>
+                    <div class="col text-dark cell-table"><?= $tender['description'] ?></div>
 
-                <div class="col-1 text-dark text-center cell-table"><?= $tender['date_open'] ?></div>
+                    <div class="col-1 text-dark text-center cell-table"><?= $tender['date_open'] ?></div>
 
-                <div class="col-1 text-dark text-center cell-table"><?= $tender['date_close'] ?></div>
+                    <div class="col-1 text-dark text-center cell-table"><?= $tender['date_close'] ?></div>
 
-                <?php if ($viewDoc) { ?>
-                    <div class="col-1 text-dark cell-table">
-                        <a href="#">документаци.zip</a>
-                    </div>
-                <?php } ?>
-            </div>
-        <?php $bg = $bg == true ? false : true;
-        } ?>
+                    <?php if ($viewDoc) { ?>
+                        <div class="col-1 text-dark cell-table">
+                            <form method="POST">
+                                <button type="submit" name="downDoc" value="/archDocs/<?= $tender['documents'] ?>" class="border-0 bg-white text-info">
+                                    <?= $tender['documents'] ?></button>
+                            </form>
 
+                        </div>
+                    <?php } ?>
+                </div>
+            <?php $bg = $bg == true ? false : true;
+            } ?>
+        </div>
         <hr>
 
-        <div class="row paginator d-flex justify-content-center mb-3">
+        <div class="row paginator d-flex justify-content-center pb-3">
 
             <a href="/?page=begin" class="btn btn-outline-dark pl-5 pr-5 ml-1 mr-1">
                 <span class="h4">|&#171;&#171;</span>

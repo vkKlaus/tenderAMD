@@ -1,7 +1,7 @@
 
     </main>
 
-<footer class="container-fluid footer text-center bg-dark text-secondary mt-5">
+<footer class="container-fluid footer text-center bg-dark text-secondary fixed-bottom">
     <div>&copy;&emsp;Vladislav A. Klokol&emsp;2020</div>
 </footer>
 <script src="/js/jquery-3.4.1.min.js"></script>

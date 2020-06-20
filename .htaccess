@@ -2,7 +2,7 @@ php_value error_reporting -1
 
 php_value display_errors on
 
-AddDefaultCharset utf-8
+AddDefaultCharset UTF-8
 
 RewriteEngine on
 RewriteBase /

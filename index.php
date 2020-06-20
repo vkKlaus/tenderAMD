@@ -3,7 +3,6 @@ $main=true;
 $rules=false;
 $contact=false;
 
-
  require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/headerConf.php';
  require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/header.php';
 

@@ -26,11 +26,11 @@ function sentMail($data)
     return true;
 }
 
-function valid_inn($login,$jurface = NULL)
+function valid_inn($login, $jurface = NULL)
 {
     $inn = (int) $login;
 
-$jurface = $jurface==NULL?1:$jurface;
+    $jurface = $jurface == NULL ? 1 : $jurface;
 
     if ($jurface == 1) {
         //для юр лица код 10 знаков
@@ -79,5 +79,21 @@ function valid_password($password)
     }
 
     return false;
-   
+}
+
+function file_force_download($file)
+{
+    if (ob_get_level()) {
+        ob_end_clean();
+    }
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename=' . basename($file));
+    header('Content-Transfer-Encoding: binary');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    readfile($file);
+    exit;
 }

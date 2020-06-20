@@ -92,4 +92,4 @@ $contacts = getTable($pdo, 'contacts');
         </div>
     </nav>
 
-    <main class="container-fluid main-container">
+    <main class="container-fluid main-container pb-3">

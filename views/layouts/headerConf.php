@@ -3,6 +3,16 @@ require $_SERVER['DOCUMENT_ROOT'] . '/module/pdo_db.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/module/pdo_query.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/module/helpers.php';
 
+
+if (isset($_POST['downDoc'])) {
+
+    if (preg_match("/^\/archDocs\/\d{0,3}\.zip$/",$_POST['downDoc']) && file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $_POST['downDoc'])) {
+        file_force_download($_SERVER['DOCUMENT_ROOT'] . '/' . $_POST['downDoc']);
+    }
+
+}
+
+
 $requestUri = $_SERVER['REQUEST_URI'];
 
 $title = '';
