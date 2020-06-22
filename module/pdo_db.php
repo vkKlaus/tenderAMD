@@ -7,23 +7,10 @@ function connect()
     if ($pdo === null) {
 
      
-  
-        // $host = 'localhost';
-        // $db   = 'j96873ov_tender';
-        // $user = 'j96873ov_tender';
-        // $pass = '123Qaz';
-        // $charset = 'utf8';
-
-//        $host = 'h006355333.mysql';
-//        $db   = 'h006355333_tender';
-//        $user = 'h006355333_mysql';
-//        $pass = 'Z:nWzo5A';
-//        $charset = 'utf8';
-
-        $host = 'localhost';
-        $db   = 'tender_amd';
-        $user = 'root';
-        $pass = '111';
+        $host = 'h006355333.mysql';
+        $db   = 'h006355333_tender';
+        $user = 'h006355333_mysql';
+        $pass = 'Z:nWzo5A';
         $charset = 'utf8';
 
         $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

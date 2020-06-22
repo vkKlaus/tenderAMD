@@ -61,11 +61,17 @@ $contacts = getTable($pdo, 'contacts');
                 <li class="nav-item">
                     <a class="nav-link text-light mr-3" href="/"><span class="<?= $main ? 'active' : '' ?>">Реестр тендеров</span></a>
                 </li>
+                
                 <li class="nav-item">
                     <a class="nav-link text-light mr-3"" href="/views/about/"> <span class="<?= $rules ? 'active' : '' ?>">Правила участия</span></a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link text-light mr-3"" href="/views/contact/"> <span class="<?= $contact ? 'active' : '' ?>">Контакты</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-light mr-3"" href="http://amdel.ru" target="_blank"> <span class="<?= $contact ? 'active' : '' ?>">Сайт группы компаний</span></a>
                 </li>
 
                 <?php
