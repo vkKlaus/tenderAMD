@@ -1,7 +1,11 @@
 body{
     font-family: Arial, Helvetica, sans-serif;
-    overflow-y: auto; 
-    min-height: 90vh;
+    overflow-y: auto;
+    min-height: 90%; 
+}
+
+.bg-header{
+    background: url("/img/bg_header.webp");
 }
 .logo-img{
     width: 16em;
@@ -11,29 +15,26 @@ body{
 .title-select{
     font-family: Arial, Helvetica, sans-serif ;
     font-weight: normal;
-    font-size: 1.2em;
-    text-align: center;
-    font-style: italic;
     margin-right: 1em;
 }
 
 #only-open{
-    transform: scale(2.2,2.2);
-    margin-top: 0.5em;
+    transform: scale(1.5,1.5);
+    margin-top: 0.4em;
 
 }
 
 .check-box__title{
-    margin-left: 1em;
-    font-size: 1.2em;
+    font-size: 1em;
     text-align: center;
 }
 .active{
-    color: rgb(209, 127, 127);
+    color: rgb(255, 0, 0);
+    font-weight: bold;
 }
 
 .main-container {
-    min-height: 90vh;
+    min-height: 90%;
 }
 
 .btn-select{
@@ -70,8 +71,11 @@ font-size: 0.9em;
     color:red;
 }
 
-.bg-dark{
-    background-color: #446483 !important;
+.btn{
+    border-width: 2px;
+}
+.btn:hover{
+    color: #353535 !important;
 }
 
 .bg-secondary{
@@ -80,9 +84,9 @@ font-size: 0.9em;
 }
 
 .box_tender{
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
-    height: 70vh;
+    min-height: 90%;
 }
 
 

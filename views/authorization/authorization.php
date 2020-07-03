@@ -36,20 +36,21 @@ if (isset($_POST['enter'])) {
 require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/header.php';
 
 ?>
-<p class="mt-3 text-center">поля, помеченные *, обязательны для заполнения</p>
-<hr>
 <div class="d-flex justify-content-center mt-5">
     <form method="POST" class="enter-form  col-12 col-md-4">
         <div class="form-group">
             <label class="enter-label" for="login-id">Имя / логин <sup>*</sup></label>
 
             <input type="text" name="login" value="" id="login-id" class="enter-field form-control" required />
+              
+              <small id="login-help" class="form-text text-muted">введите имя, указанное при регистрации</small>
         </div>
 
         <div class="form-group">
             <label class="enter-label" for="password-id">Пароль <sup>*</sup></label>
 
             <input id="password_id" name="password" type="password" value="" id="password-id" class="enter-field form-control" required />
+        <small id="login-help" class="form-text text-muted">введите пароль</small>
         </div>
 
 

@@ -87,7 +87,8 @@ function getUserRecovery($pdo,  $data)
                 `users` 
             SET 
                 `password`=:password,
-                `action`=:action
+                `action`=0,
+                `to_check`=0
             WHERE
                 `inn`=:login AND
                 `name`=:name AND 
@@ -100,7 +101,7 @@ function getUserRecovery($pdo,  $data)
         'name' => $data['name'],
         'email' => $data['email'],
         'password' => password_hash($data['password_1'], PASSWORD_BCRYPT),
-        'action' => '0'
+     0
     ]);
 
     return $users[0];
@@ -124,7 +125,8 @@ function addUser($pdo, $data)
         `email`,
         `phone`,
         `password`,
-        `name`
+        `name`,
+        `title`
       
     ) 
     values 
@@ -133,7 +135,8 @@ function addUser($pdo, $data)
         :email,
         :phone, 
         :password,
-        :name      
+        :name,
+        :title      
         )';
 
     $stmt = $pdo->prepare($sql);
@@ -144,7 +147,9 @@ function addUser($pdo, $data)
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => password_hash($data['password_1'], PASSWORD_BCRYPT),
-            'name' => $data['name']
+            'name' => $data['name'],
+            'title' => '???',
+
         ]
     );
 
@@ -155,70 +160,6 @@ function addUser($pdo, $data)
     }
 };
 
-// function createDB($pdo)
-// {
-//     $sql = 'INSERT INTO `tenders`
-//         (
-//             `id`, 
-//             `delete`, 
-//             `close`, 
-//             `type`, 
-//             `project`, 
-//             `description`, 
-//             `date_open`, 
-//             `date_close`, 
-//             `documents`
-//         ) 
-//         VALUES 
-//         (
-//             :id, 
-//             :delete, 
-//             :close, 
-//             :type, 
-//             :projec, 
-//             :description, 
-//             :date_open, 
-//             :date_close, 
-//             :documents
-//             )';
-
-//     $stmt = $pdo->prepare($sql);
-
-//     for ($i = 1; $i <= 1000; $i++) {
-
-//         $prj = rand(1, 4);
-//         $tp = rand(1, 8);
-//         $close = rand(0, 1);
-//         $y = rand(2015, 2020);
-//         $m = rand(1, 12);
-//         $d = rand(1, 28);
-//         $cls = rand(14, 30);
-//         $do = new DateTime("$y-" . ($m < 10 ? "0" : "") . "$m-" . ($d < 10 ? "0" : "") . "$d 00:00:00");
-//         $doF = ($do->format('Y-m-d'));
-//         $lenTnd = '+' . rand(15, 20) . ' day';
-//         $dc = $do->modify($lenTnd);
-//         $dcF = ($dc->format('Y-m-d'));
-
-//         $tnd = "тендер №$i: проект $prj; тип $tp; дата начала: " . $doF . "; окончание приема заявок: " . $dcF . ". тендер закрыт: " . ($close == 0 ? "нет" : "да");
-
-
-
-
-//         $result = $stmt->execute(
-//             [
-//                 'id' => $i,
-//                 'delete' => 0,
-//                 'close' => $close,
-//                 'type' => $tp,
-//                 'projec' => $prj,
-//                 'description' => $tnd,
-//                 'date_open' => $do->format('Y-m-d'),
-//                 'date_close' => $dc->format('Y-m-d'),
-//                 'documents' => "tenderDoc$i.zip"
-//             ]
-//         );
-//     }
-// }
 
 function   actionUser($pdo, $act)
 {
@@ -227,7 +168,8 @@ function   actionUser($pdo, $act)
     $sql = 'UPDATE 
                 `users` 
             SET 
-                `action`=:action
+                `action`=:action,
+                `to_check`=`1`
             WHERE
                 `id`=:id';
 
@@ -252,4 +194,31 @@ function   delUser($pdo, $act)
     $stmt->execute([
         'id' => (int) $act['id'],
     ]);
+}
+
+function downLoadTender($pdo,$tender,$user){
+    $tender = htmlspecialchars($tender, ENT_QUOTES);
+
+    $user = htmlspecialchars((string)($user), ENT_QUOTES);
+
+    $sql = 'INSERT INTO `download` 
+    (
+        `user`,
+        `tender`
+    ) 
+    values 
+    (
+        :user, 
+        :tender     
+        )';
+
+    $stmt = $pdo->prepare($sql);
+
+    $result = $stmt->execute(
+        [
+            'user' => $user,
+            'tender' => $tender,
+        ]
+    );
+
 }

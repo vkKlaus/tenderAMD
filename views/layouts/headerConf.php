@@ -4,13 +4,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/module/pdo_query.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/module/helpers.php';
 
 
-if (isset($_POST['downDoc'])) {
 
-    if (preg_match("/^\/archDocs\/\d{0,3}\.zip$/",$_POST['downDoc']) && file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $_POST['downDoc'])) {
-        file_force_download($_SERVER['DOCUMENT_ROOT'] . '/' . $_POST['downDoc']);
-    }
-
-}
 
 
 $requestUri = $_SERVER['REQUEST_URI'];
@@ -27,6 +21,19 @@ $pdo = connect();
 
 ini_set('session.gc_maxlifetime', 10800);
 session_start();
+
+
+if (isset($_POST['downDoc'])) {
+
+    if (isset($_POST['id']) && isset($_SESSION['user'])){
+        downLoadTender($pdo,$_POST['id'],$_SESSION['user']['id']);
+    }
+
+    if (preg_match("/^\/archDocs\/\d{0,3}\.zip$/",$_POST['downDoc']) && file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $_POST['downDoc'])) {
+        file_force_download($_SERVER['DOCUMENT_ROOT'] . '/' . $_POST['downDoc']);
+    }
+}
+
 
 if (isset($_SERVER['HTTP_REFERER'])) {
     $host = $_SERVER['HTTP_REFERER'];

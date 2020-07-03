@@ -2,6 +2,8 @@
 $main=false;
 $rules=true;
 $contact=false;
+$mainSite = false;
+
 require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/headerConf.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/header.php';
 ?>
@@ -28,7 +30,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/views/layouts/header.php';
 
     <h3 class="text-center mt-5">Для участия в тендере необходимо</h3>
 
-    <ul class="ml-5 list-rules">
+    <ul class="ml-5 list-rules pb-5">
         <li>Пройти регистрацию на сайте</li>
         <li>Предоставить ИНН для проверки регистрируемой компании, фирмы, ИП</li>
         <li>Ознакомиться с условиями тендера</li>

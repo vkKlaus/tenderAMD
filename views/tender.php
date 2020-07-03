@@ -83,8 +83,7 @@ if (isset($_GET['page'])) {
         $_SESSION['page'] = 0;
     } elseif ($_GET['page'] == 'end') {
 
-        $page = (getCountElements($pdo, 'tenders', $where) - 25) / 25;
-
+        $page = (int)((getCountElements($pdo, 'tenders', $where) - 25) / 25);
         $_SESSION['page'] = $page;
     }
 } else {
@@ -96,7 +95,7 @@ $limit = ' ' . ($_SESSION['page'] * 25) . ', 25';
 $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
 
 ?>
-<form action="/" method="POST" class=" pl-2 d-flex justify-content-between align-items-center lex-wrap row bg-secondary pt-2">
+<form action="/" method="POST" class=" pl-2 d-flex justify-content-between align-items-center lex-wrap row bg-white pt-2">
 
     <div class="d-flex justify-content-start align-items-center">
         <label class="title-select  text-right ">проект:
@@ -125,7 +124,7 @@ $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
             <span class="check-box__title">только действующие</span>
         </label>
 
-        <input type="submit" name="select" value="Отобрать" class="btn btn-info text-dark btn-select ml-4">
+        <input type="submit" name="select" value="Отобрать" class="ml-3 h6 btn btn-outline-danger  px-3 mt-1  text-danger font-weight-bold rounded-0 btn-sm">
     </div>
     <div class="pr-3">материалы тендера доступны авторизированным пользователям</div>
 </form>
@@ -163,7 +162,7 @@ $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
 
             <?php if ($viewDoc) { ?>
                 <div class="col-1 border border-white cell-table text-white-50">
-                    тз
+                    материалы
                 </div>
             <?php } ?>
         </div>
@@ -207,8 +206,11 @@ $tenders = getTable($pdo, 'tenders', $where, $sort, $limit);
 
                     <?php if ($viewDoc) { ?>
                         <div class="col-1 text-dark cell-table">
-                            <form method="POST">
-                                <button type="submit" name="downDoc" value="/archDocs/<?= $tender['documents'] ?>" class="border-0 bg-white text-info">
+                            <form method="POST" class="d-flex justify-content-center">
+                                <input type="text" name="id" value="<?= $tender['id'] ?>" class="d-none">
+                                <button type="submit" name="downDoc" value="/archDocs/<?= $tender['documents'] ?>" 
+                                class="border-0  <?= ($tender['close'] ? 'bg-secondary ' : ($bg ? 'bg-light' : 'bg-wite')) ?> text-dark " 
+                                <?= ($tender['close'] ? 'disabled ' : '') ?>>
                                     <?= $tender['documents'] ?></button>
                             </form>
 
